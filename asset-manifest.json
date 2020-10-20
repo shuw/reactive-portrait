@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/reactive-portrait/static/css/main.5f361e03.chunk.css",
+    "main.js": "/reactive-portrait/static/js/main.95cee661.chunk.js",
+    "main.js.map": "/reactive-portrait/static/js/main.95cee661.chunk.js.map",
+    "runtime-main.js": "/reactive-portrait/static/js/runtime-main.64dd17f2.js",
+    "runtime-main.js.map": "/reactive-portrait/static/js/runtime-main.64dd17f2.js.map",
+    "static/js/2.4ebcaa4d.chunk.js": "/reactive-portrait/static/js/2.4ebcaa4d.chunk.js",
+    "static/js/2.4ebcaa4d.chunk.js.map": "/reactive-portrait/static/js/2.4ebcaa4d.chunk.js.map",
+    "index.html": "/reactive-portrait/index.html",
+    "precache-manifest.5f9561b07a443a9a2ab92c3c0ecdf90b.js": "/reactive-portrait/precache-manifest.5f9561b07a443a9a2ab92c3c0ecdf90b.js",
+    "service-worker.js": "/reactive-portrait/service-worker.js",
+    "static/css/main.5f361e03.chunk.css.map": "/reactive-portrait/static/css/main.5f361e03.chunk.css.map",
+    "static/js/2.4ebcaa4d.chunk.js.LICENSE.txt": "/reactive-portrait/static/js/2.4ebcaa4d.chunk.js.LICENSE.txt",
+    "static/media/logo.svg": "/reactive-portrait/static/media/logo.5d5d9eef.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.64dd17f2.js",
+    "static/js/2.4ebcaa4d.chunk.js",
+    "static/css/main.5f361e03.chunk.css",
+    "static/js/main.95cee661.chunk.js"
+  ]
+}
