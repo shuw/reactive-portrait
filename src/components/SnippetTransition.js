@@ -59,20 +59,18 @@ export default class SnippetTransition extends React.Component {
     }
 
     var timeElapsed = new Date().getTime() - this.state.transitionStartTime;
-
     var transitionFraction = Math.min(
       timeElapsed / VIDEO_CROSS_FADE_TIME_MS,
       1.0
     );
 
-    console.log(transitionFraction);
     this.setState({
       transitionFraction: transitionFraction,
     });
   };
 
   componentWillUnmount() {
-    // window.clearInterval(this._timer);
+    window.clearInterval(this._timer);
   }
 
   render() {
