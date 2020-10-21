@@ -20,7 +20,6 @@ export default class ReactivePortrait extends React.Component {
 
   constructor(props) {
     super(props);
-    debugger;
     this._stateMachine = new StateMachine(ReactivePortrait.defaultSnippet);
 
     this.state = {

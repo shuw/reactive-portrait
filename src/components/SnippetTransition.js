@@ -2,10 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import Snippet from "./Snippet";
 
-const VIDEO_CROSS_FADE_TIME_MS = 1000;
+const VIDEO_CROSS_FADE_TIME_MS = 400;
 const FRAME_INTERVAL_MS = 30;
 
-// Transition between two states
+// Manages cross-fade between two Snippet Videos
 export default class SnippetTransition extends React.Component {
   static propTypes = {
     width: PropTypes.number,
@@ -48,14 +48,15 @@ export default class SnippetTransition extends React.Component {
     // wait for video to be ready before transitioning
     if (
       !this.nextSnippetRef.current ||
-      !this.nextSnippetRef.current.videoRef.current ||
-      this.nextSnippetRef.current.videoRef.current.readyState !== 4
+      !this.nextSnippetRef.current.isVideoReady()
     ) {
       return;
     }
 
+    // reset transition, and play from beginning
     if (!this.state.transitionStartTime) {
       this.state.transitionStartTime = new Date().getTime();
+      this.nextSnippetRef.current.playFromBeginning();
     }
 
     var timeElapsed = new Date().getTime() - this.state.transitionStartTime;

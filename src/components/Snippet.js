@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+// Encapsulates a Video Snippet
 export default class Snippet extends React.Component {
   static propTypes = {
     width: PropTypes.number,
@@ -14,6 +15,17 @@ export default class Snippet extends React.Component {
     super(props);
 
     this.videoRef = React.createRef();
+  }
+
+  isVideoReady() {
+    return this.videoRef.current && this.videoRef.current.readyState === 4;
+  }
+
+  playFromBeginning() {
+    if (!this.isVideoReady()) {
+      return;
+    }
+    this.videoRef.current.currentTime = 0;
   }
 
   render() {
