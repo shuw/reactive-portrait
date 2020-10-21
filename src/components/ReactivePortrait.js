@@ -6,6 +6,8 @@ import StateMachine from "../logic/StateMachine"
 // TODO
 // * Add state for time tick
 
+const VIDEO_CROSS_FADE_TIME_MS = 200;
+
 export default class ReactivePortrait extends React.Component {
   static propTypes = {
     width: PropTypes.number,
@@ -21,6 +23,8 @@ export default class ReactivePortrait extends React.Component {
     this.state = {
       stateMachine: this._stateMachine,
       portraitName: this._stateMachine.getState(),
+      newPortraitName: null,
+
     };
   }
 
@@ -33,19 +37,31 @@ export default class ReactivePortrait extends React.Component {
   }
 
   updatePortraitName(transition) {
-    var name = this._stateMachine.getNewState(transition);
-    if (name === this.state.portraitName) {
+    var newName = this._stateMachine.getNewState(transition);
+    if (newName == this.state.portraitName
+      || newName == this.state.newPortraitName) {
       return;
     }
-    console.log('New Portrait Name: ' + name);
-    this.setState({ portraitName: name });
+    console.log('New Portrait Name: ' + newName);
+    this.setState({ newPortraitName: newName });
   }
 
   render() {
     console.log('Re rendering: ' + this.state.portraitState)
     return (
-      <div onMouseEnter={this.onMouseEnter}>
+      <div onMouseEnter={this.onMouseEnter}
+        style={{
+          position: 'relative',
+          width: this.props.width,
+          height: this.props.height
+        }}>
         <Snippet width={this.props.width} height={this.props.height} name={this.state.portraitName} />
+        {this.state.newPortraitName
+          ? <Snippet
+            width={this.props.width}
+            height={this.props.height}
+            name={this.state.newPortraitName} />
+          : null}
       </div>
     );
   }
