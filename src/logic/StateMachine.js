@@ -10,7 +10,7 @@ const States = {
     },
   },
   wave: {
-    minDurationMs: 2000,
+    minDurationMs: 3000,
     transitions: {
       tick50Ms: {
         idle: { probability: 1 },

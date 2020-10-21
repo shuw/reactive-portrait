@@ -45,6 +45,7 @@ export default class SnippetTransition extends React.Component {
       return;
     }
 
+    // wait for video to be ready before transitioning
     if (
       !this.nextSnippetRef.current ||
       !this.nextSnippetRef.current.videoRef.current ||

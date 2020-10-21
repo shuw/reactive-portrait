@@ -4,21 +4,24 @@ import StateMachine from "../logic/StateMachine";
 import SnippetTransition from "./SnippetTransition";
 
 // TODO
-// * Add debug overlay to show current state
 // * Add support for multiple videos for each state
 // * Add transitions states back to idle
 // * Add ideal transition points within videos (in state machine)
 // * Add click handler (maybe navigate to public site)
 // * Integrate on frontpage of personal website
 export default class ReactivePortrait extends React.Component {
+  static defaultSnippet = "idle";
+
   static propTypes = {
     width: PropTypes.number,
     height: PropTypes.number,
+    onSnippetChanged: PropTypes.func,
   };
 
   constructor(props) {
     super(props);
-    this._stateMachine = new StateMachine("idle");
+    debugger;
+    this._stateMachine = new StateMachine(ReactivePortrait.defaultSnippet);
 
     this.state = {
       stateMachine: this._stateMachine,
@@ -49,7 +52,10 @@ export default class ReactivePortrait extends React.Component {
       return;
     }
 
-    console.log("New Portrait Name: " + newName);
+    if (this.props.onSnippetChanged) {
+      this.props.onSnippetChanged(newName);
+    }
+
     this.setState({
       snippetName: this.state.newSnippetName,
       newSnippetName: newName,
