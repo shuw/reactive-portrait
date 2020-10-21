@@ -10,10 +10,15 @@ export default class Snippet extends React.Component {
     onVideoLoaded: PropTypes.func,
   };
 
+  constructor(props) {
+    super(props);
+
+    this.videoRef = React.createRef();
+  }
+
   render() {
     return (
       <div
-        key={this.props.name}
         style={{
           position: "absolute",
           top: 0,
@@ -26,6 +31,7 @@ export default class Snippet extends React.Component {
         }}
       >
         <video
+          ref={this.videoRef}
           autoPlay
           muted
           loop

@@ -21,61 +21,73 @@ export default class SnippetTransition extends React.Component {
       transitionFraction: 1.0,
       transitionStartTime: null,
     };
+
+    this.nextSnippetRef = React.createRef();
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (nextProps.newName !== this.props.newName) {
-      nextState.transitionFraction = 0.0;
-      nextState.transitionStartTime = null;
+    if (nextProps.newName === this.props.newName) {
+      return true;
     }
+
+    nextState.transitionFraction = 0.0;
+    nextState.transitionStartTime = null;
 
     return true;
   }
 
-  onVideoLoaded = () => {
+  componentDidMount() {
+    this._timer = window.setInterval(this.updateTransition, FRAME_INTERVAL_MS);
+  }
+
+  updateTransition = () => {
+    if (this.state.transitionFraction >= 1.0) {
+      return;
+    }
+
+    if (
+      !this.nextSnippetRef.current ||
+      !this.nextSnippetRef.current.videoRef.current ||
+      this.nextSnippetRef.current.videoRef.current.readyState !== 4
+    ) {
+      return;
+    }
+
+    if (!this.state.transitionStartTime) {
+      this.state.transitionStartTime = new Date().getTime();
+    }
+
+    var timeElapsed = new Date().getTime() - this.state.transitionStartTime;
+
+    var transitionFraction = Math.min(
+      timeElapsed / VIDEO_CROSS_FADE_TIME_MS,
+      1.0
+    );
+
+    console.log(transitionFraction);
     this.setState({
-      transitionStartTime: new Date().getTime(),
+      transitionFraction: transitionFraction,
     });
   };
 
-  componentDidMount() {
-    this._timer = window.setInterval(() => {
-      if (
-        this.state.transitionFraction >= 1.0 ||
-        this.state.transitionStartTime === null
-      ) {
-        return;
-      }
-
-      var timeElapsed = new Date().getTime() - this.state.transitionStartTime;
-
-      var transitionFraction = Math.min(
-        timeElapsed / VIDEO_CROSS_FADE_TIME_MS,
-        1.0
-      );
-      console.log(transitionFraction);
-      this.setState({
-        transitionFraction: transitionFraction,
-      });
-    }, FRAME_INTERVAL_MS);
-  }
-
   componentWillUnmount() {
-    window.clearInterval(this._timer);
+    // window.clearInterval(this._timer);
   }
 
   render() {
     return (
       <div>
         <Snippet
+          key={this.props.name}
           width={this.props.width}
           height={this.props.height}
           name={this.props.name}
           opacity={1.0}
         />
-        {this.props.newName ? (
+        {this.props.newName && this.props.newName !== this.props.name ? (
           <Snippet
-            onVideoLoaded={this.onVideoLoaded}
+            ref={this.nextSnippetRef}
+            key={this.props.newName}
             opacity={this.state.transitionFraction}
             width={this.props.width}
             height={this.props.height}

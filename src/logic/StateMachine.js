@@ -1,7 +1,20 @@
+// TODO
+// * Add entry state that is separate from idle
 const States = {
   idle: {
-    mouseEnter: {
-      newState: "wave",
+    minDurationMs: 0.0,
+    transitions: {
+      mouseEnter: {
+        wave: { probability: 1.0 },
+      },
+    },
+  },
+  wave: {
+    minDurationMs: 2000,
+    transitions: {
+      tick50Ms: {
+        idle: { probability: 1 },
+      },
     },
   },
 };
@@ -9,6 +22,7 @@ const States = {
 export default class StateMachine {
   constructor(initialState) {
     this._state = initialState;
+    this._stateStartTime = new Date().getTime();
   }
 
   getState() {
@@ -21,17 +35,27 @@ export default class StateMachine {
   }
 
   _updateState(transition) {
-    var transitions = States[this._state];
-    if (!transitions) {
+    var stateInfo = States[this._state];
+
+    var timeInStateMs = new Date().getTime() - this._stateStartTime;
+    if (timeInStateMs < stateInfo.minDurationMs) {
       return;
     }
 
-    var newStateInfo = transitions[transition];
-
-    if (!newStateInfo) {
+    var newStates = stateInfo.transitions[transition];
+    if (!newStates) {
       return;
     }
 
-    this._state = newStateInfo.newState;
+    for (const entry of Object.entries(newStates)) {
+      if (Math.random() > entry[1].probability) {
+        continue;
+      }
+
+      // found new state, reset timer
+      this._stateStartTime = new Date().getTime();
+      this._state = entry[0];
+      return;
+    }
   }
 }

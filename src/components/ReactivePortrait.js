@@ -4,10 +4,12 @@ import StateMachine from "../logic/StateMachine";
 import SnippetTransition from "./SnippetTransition";
 
 // TODO
+// * Add debug overlay to show current state
 // * Add support for multiple videos for each state
 // * Add transitions states back to idle
 // * Add ideal transition points within videos (in state machine)
 // * Add click handler (maybe navigate to public site)
+// * Integrate on frontpage of personal website
 export default class ReactivePortrait extends React.Component {
   static propTypes = {
     width: PropTypes.number,
@@ -18,17 +20,23 @@ export default class ReactivePortrait extends React.Component {
     super(props);
     this._stateMachine = new StateMachine("idle");
 
-    window.setInterval(this.tick, 50);
-
     this.state = {
       stateMachine: this._stateMachine,
       snippetName: this._stateMachine.getState(),
-      newSnippetName: null,
+      newSnippetName: this._stateMachine.getState(),
     };
   }
 
-  tick = () => {
-    this.updatePortraitName("tick");
+  componentDidMount() {
+    this._timer = window.setInterval(this.tick50Ms, 100);
+  }
+
+  componentWillUnmount() {
+    window.clearInterval(this._timer);
+  }
+
+  tick50Ms = () => {
+    this.updatePortraitName("tick50Ms");
   };
 
   onMouseEnter = () => {
@@ -37,14 +45,15 @@ export default class ReactivePortrait extends React.Component {
 
   updatePortraitName(transition) {
     var newName = this._stateMachine.getNewState(transition);
-    if (
-      newName === this.state.snippetName ||
-      newName === this.state.newSnippetName
-    ) {
+    if (newName === this.state.newSnippetName) {
       return;
     }
+
     console.log("New Portrait Name: " + newName);
-    this.setState({ newSnippetName: newName });
+    this.setState({
+      snippetName: this.state.newSnippetName,
+      newSnippetName: newName,
+    });
   }
 
   render() {
