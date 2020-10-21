@@ -4,8 +4,10 @@ import StateMachine from "../logic/StateMachine";
 import SnippetTransition from "./SnippetTransition";
 
 // TODO
-// * Create Component to Cross-fade videos
-
+// * Add support for multiple videos for each state
+// * Add transitions states back to idle
+// * Add ideal transition points within videos (in state machine)
+// * Add click handler (maybe navigate to public site)
 export default class ReactivePortrait extends React.Component {
   static propTypes = {
     width: PropTypes.number,
