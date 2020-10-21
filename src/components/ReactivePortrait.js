@@ -1,12 +1,10 @@
-import React from 'react';
+import React from "react";
 import PropTypes from "prop-types";
-import Snippet from "./Snippet";
-import StateMachine from "../logic/StateMachine"
+import StateMachine from "../logic/StateMachine";
+import SnippetTransition from "./SnippetTransition";
 
 // TODO
-// * Add state for time tick
-
-const VIDEO_CROSS_FADE_TIME_MS = 200;
+// * Create Component to Cross-fade videos
 
 export default class ReactivePortrait extends React.Component {
   static propTypes = {
@@ -16,52 +14,53 @@ export default class ReactivePortrait extends React.Component {
 
   constructor(props) {
     super(props);
-    this._stateMachine = new StateMachine('idle');
+    this._stateMachine = new StateMachine("idle");
 
     window.setInterval(this.tick, 50);
 
     this.state = {
       stateMachine: this._stateMachine,
-      portraitName: this._stateMachine.getState(),
-      newPortraitName: null,
-
+      snippetName: this._stateMachine.getState(),
+      newSnippetName: null,
     };
   }
 
   tick = () => {
-    this.updatePortraitName('tick');
-  }
+    this.updatePortraitName("tick");
+  };
 
   onMouseEnter = () => {
-    this.updatePortraitName('mouseEnter');
-  }
+    this.updatePortraitName("mouseEnter");
+  };
 
   updatePortraitName(transition) {
     var newName = this._stateMachine.getNewState(transition);
-    if (newName == this.state.portraitName
-      || newName == this.state.newPortraitName) {
+    if (
+      newName === this.state.snippetName ||
+      newName === this.state.newSnippetName
+    ) {
       return;
     }
-    console.log('New Portrait Name: ' + newName);
-    this.setState({ newPortraitName: newName });
+    console.log("New Portrait Name: " + newName);
+    this.setState({ newSnippetName: newName });
   }
 
   render() {
-    console.log('Re rendering: ' + this.state.portraitState)
     return (
-      <div onMouseEnter={this.onMouseEnter}
+      <div
+        onMouseEnter={this.onMouseEnter}
         style={{
-          position: 'relative',
+          position: "relative",
           width: this.props.width,
-          height: this.props.height
-        }}>
-        <Snippet width={this.props.width} height={this.props.height} name={this.state.portraitName} />
-        {this.state.newPortraitName
-          ? <Snippet
-            width={this.props.width}
-            height={this.props.height}
-            name={this.state.newPortraitName} />
-          : null}
+          height: this.props.height,
+        }}
+      >
+        <SnippetTransition
+          width={this.props.width}
+          height={this.props.height}
+          name={this.state.snippetName}
+          newName={this.state.newSnippetName}
+        />
       </div>
     );
   }

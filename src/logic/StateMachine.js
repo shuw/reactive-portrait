@@ -1,10 +1,10 @@
 const States = {
-  "idle": {
-    "mouseEnter": {
-      newState: "wave"
-    }
-  }
-}
+  idle: {
+    mouseEnter: {
+      newState: "wave",
+    },
+  },
+};
 
 export default class StateMachine {
   constructor(initialState) {
@@ -22,14 +22,16 @@ export default class StateMachine {
 
   _updateState(transition) {
     var transitions = States[this._state];
-    if (!transitions) { return; }
+    if (!transitions) {
+      return;
+    }
 
     var newStateInfo = transitions[transition];
 
-    if (!newStateInfo) { return; }
+    if (!newStateInfo) {
+      return;
+    }
 
     this._state = newStateInfo.newState;
   }
-
 }
-

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import PropTypes from "prop-types";
 
 export default class Snippet extends React.Component {
@@ -11,20 +11,27 @@ export default class Snippet extends React.Component {
 
   render() {
     return (
-      <div key={this.props.name} style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-      }}>
-        <video autoPlay muted loop
-          width={this.props.width} height={this.props.height}
+      <div
+        key={this.props.name}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+        }}
+      >
+        <video
+          autoPlay
+          muted
+          loop
+          width={this.props.width}
+          height={this.props.height}
           style={{
-
-            opacity: this.props.opacity || 1.0
-          }}>
+            opacity: this.props.opacity,
+          }}
+        >
           <source src={"media/" + this.props.name + ".mov"} />
         </video>
-      </div >
+      </div>
     );
   }
 }
