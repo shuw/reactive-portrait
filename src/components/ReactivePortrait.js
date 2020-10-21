@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from "prop-types";
 import Snippet from "./Snippet";
-import InteractionController from "../controller/InteractionController"
+import StateMachine from "../logic/StateMachine"
 
+// TODO
+// * Add state for time tick
 
 export default class ReactivePortrait extends React.Component {
   static propTypes = {
@@ -12,15 +14,38 @@ export default class ReactivePortrait extends React.Component {
 
   constructor(props) {
     super(props);
+    this._stateMachine = new StateMachine('idle');
+
+    window.setInterval(this.tick, 50);
+
     this.state = {
-      controller: new InteractionController(this),
+      stateMachine: this._stateMachine,
+      portraitName: this._stateMachine.getState(),
     };
   }
 
+  tick = () => {
+    this.updatePortraitName('tick');
+  }
+
+  onMouseEnter = () => {
+    this.updatePortraitName('mouseEnter');
+  }
+
+  updatePortraitName(transition) {
+    var name = this._stateMachine.getNewState(transition);
+    if (name === this.state.portraitName) {
+      return;
+    }
+    console.log('New Portrait Name: ' + name);
+    this.setState({ portraitName: name });
+  }
+
   render() {
+    console.log('Re rendering: ' + this.state.portraitState)
     return (
-      <div onMouseEnter={this.state.controller.onMouseEnter}>
-        <Snippet width={this.props.width} height={this.props.height} name="portrait" />
+      <div onMouseEnter={this.onMouseEnter}>
+        <Snippet width={this.props.width} height={this.props.height} name={this.state.portraitName} />
       </div>
     );
   }
