@@ -6,7 +6,7 @@ export default function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <ReactivePortrait />
+        <ReactivePortrait width={800} height={800} />
       </header>
     </div>
   );
