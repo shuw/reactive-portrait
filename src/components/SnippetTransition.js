@@ -26,15 +26,24 @@ export default class SnippetTransition extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
     if (nextProps.newName !== this.props.newName) {
       nextState.transitionFraction = 0.0;
-      nextState.transitionStartTime = new Date().getTime();
+      nextState.transitionStartTime = null;
     }
 
     return true;
   }
 
+  onVideoLoaded = () => {
+    this.setState({
+      transitionStartTime: new Date().getTime(),
+    });
+  };
+
   componentDidMount() {
     this._timer = window.setInterval(() => {
-      if (this.state.transitionFraction >= 1.0) {
+      if (
+        this.state.transitionFraction >= 1.0 ||
+        this.state.transitionStartTime === null
+      ) {
         return;
       }
 
@@ -45,11 +54,15 @@ export default class SnippetTransition extends React.Component {
         1.0
       );
       console.log(transitionFraction);
-      this.setState({ transitionFraction: transitionFraction });
+      this.setState({
+        transitionFraction: transitionFraction,
+      });
     }, FRAME_INTERVAL_MS);
   }
 
-  componentWillUnmount() {}
+  componentWillUnmount() {
+    window.clearInterval(this._timer);
+  }
 
   render() {
     return (
@@ -62,6 +75,7 @@ export default class SnippetTransition extends React.Component {
         />
         {this.props.newName ? (
           <Snippet
+            onVideoLoaded={this.onVideoLoaded}
             opacity={this.state.transitionFraction}
             width={this.props.width}
             height={this.props.height}

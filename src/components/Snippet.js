@@ -7,6 +7,7 @@ export default class Snippet extends React.Component {
     height: PropTypes.number,
     name: PropTypes.string,
     opacity: PropTypes.number,
+    onVideoLoaded: PropTypes.func,
   };
 
   render() {
@@ -17,12 +18,18 @@ export default class Snippet extends React.Component {
           position: "absolute",
           top: 0,
           left: 0,
+          width: this.props.width,
+          height: this.props.height,
+          borderRadius: this.props.width / 2,
+          WebkitMaskImage:
+            "-webkit-radial-gradient(circle, white 100%, black 100%)",
         }}
       >
         <video
           autoPlay
           muted
           loop
+          onLoadedData={this.props.onVideoLoaded}
           width={this.props.width}
           height={this.props.height}
           style={{
