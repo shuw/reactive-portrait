@@ -6,7 +6,7 @@ module.exports = {
     libraryTarget: "window",
     library: "bindReactivePortrait",
     libraryExport: "default",
-    path: path.resolve(__dirname, "build"),
+    path: path.resolve(__dirname, "public"),
     filename: "bindReactivePortrait.js",
   },
   module: {

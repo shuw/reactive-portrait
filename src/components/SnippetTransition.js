@@ -12,6 +12,7 @@ export default class SnippetTransition extends React.Component {
     height: PropTypes.number,
     name: PropTypes.string,
     newName: PropTypes.string,
+    mediaPath: PropTypes.string,
   };
 
   constructor(props) {
@@ -79,6 +80,7 @@ export default class SnippetTransition extends React.Component {
       <div>
         <Snippet
           key={this.props.name}
+          mediaPath={this.props.mediaPath}
           width={this.props.width}
           height={this.props.height}
           name={this.props.name}
@@ -88,6 +90,7 @@ export default class SnippetTransition extends React.Component {
           <Snippet
             ref={this.nextSnippetRef}
             key={this.props.newName}
+            mediaPath={this.props.mediaPath}
             opacity={this.state.transitionFraction}
             width={this.props.width}
             height={this.props.height}

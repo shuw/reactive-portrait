@@ -20,6 +20,7 @@ export default class App extends React.Component {
       <div className="App">
         <header className="App-header">
           <ReactivePortrait
+            snippetsMediaPath="media"
             onSnippetChanged={this.onPortraitChanged}
             width={400}
             height={400}

@@ -1,4 +1,4 @@
-const DIRECTION_PROB = 0.01;
+const DIRECTION_PROB = 0.05;
 
 // TODO
 // * States to introduce:
@@ -10,7 +10,7 @@ const States = {
       tick50Ms: {
         wave: { probability: 0.001 },
         lookingAround: { probability: 0.001 },
-        lookingAround2: { probability: 0.003 },
+        lookingAround2: { probability: 0.001 },
       },
 
       attention: {

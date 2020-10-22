@@ -11,6 +11,7 @@ export default class Snippet extends React.Component {
     name: PropTypes.string,
     opacity: PropTypes.number,
     onVideoLoaded: PropTypes.func,
+    mediaPath: PropTypes.string,
   };
 
   constructor(props) {
@@ -81,7 +82,7 @@ export default class Snippet extends React.Component {
             opacity: this.props.opacity,
           }}
         >
-          <source src={"media/" + this.props.name + ".mov"} />
+          <source src={this.props.mediaPath + "/" + this.props.name + ".mov"} />
         </video>
       </div>
     );

@@ -19,6 +19,7 @@ export default class ReactivePortrait extends React.Component {
     width: PropTypes.number,
     height: PropTypes.number,
     onSnippetChanged: PropTypes.func,
+    snippetsMediaPath: PropTypes.string,
   };
 
   constructor(props) {
@@ -122,6 +123,7 @@ export default class ReactivePortrait extends React.Component {
         }}
       >
         <SnippetTransition
+          mediaPath={this.props.snippetsMediaPath}
           width={this.props.width}
           height={this.props.height}
           name={this.state.snippetName}
