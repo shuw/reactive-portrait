@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import StateMachine from "../logic/StateMachine";
 import SnippetTransition from "./SnippetTransition";
 
+const DIRECTION_RADIUS_BUFFER = 0.75;
+
 // TODO
 // * Add support for multiple videos for each state
 // * Add transitions states back to idle
@@ -54,6 +56,13 @@ export default class ReactivePortrait extends React.Component {
 
     const offsetX = event.clientX - centerX;
     const offsetY = event.clientY - centerY;
+
+    const distance = Math.sqrt(Math.pow(offsetX, 2) + Math.pow(offsetY, 2));
+
+    // ignore directional mouse movements that are too close
+    if (distance < rect.width * DIRECTION_RADIUS_BUFFER) {
+      return;
+    }
 
     var angle, side;
     if (offsetX > 0) {
