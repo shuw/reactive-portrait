@@ -41,7 +41,6 @@ export default class Snippet extends React.Component {
 
   onVideoLoaded = (e) => {
     this.videoRef.current.currentTime = this.getVideoStartTime();
-    debugger;
     if (this.props.onVideoLoaded) {
       this.props.onVideoLoaded(e);
     }
