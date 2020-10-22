@@ -6,10 +6,8 @@ import SnippetTransition from "./SnippetTransition";
 const DIRECTION_RADIUS_BUFFER = 0.75;
 
 // TODO
-// * Handle external events (e.g. click on photo)
+// * Incorporate yawn state
 // * Support for delayed state change. Short term memory.
-// * Add click handler (maybe navigate to public site)
-// * Integrate on frontpage of personal website
 export default class ReactivePortrait extends React.Component {
   static defaultSnippet = "idle";
 
