@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+const IDLE_START_POINTS_S = [10, 23.26];
+
 // Encapsulates a Video Snippet
 export default class Snippet extends React.Component {
   static propTypes = {
@@ -25,7 +27,32 @@ export default class Snippet extends React.Component {
     if (!this.isVideoReady()) {
       return;
     }
-    this.videoRef.current.currentTime = 0;
+    var startTime = 0;
+    if (this.props.name === "idle") {
+      startTime =
+        IDLE_START_POINTS_S[
+          Math.floor(Math.random() * IDLE_START_POINTS_S.length)
+        ];
+    }
+
+    this.videoRef.current.currentTime = startTime;
+  }
+
+  onVideoLoaded = (e) => {
+    this.videoRef.current.currentTime = this.getVideoStartTime();
+    debugger;
+    if (this.props.onVideoLoaded) {
+      this.props.onVideoLoaded(e);
+    }
+  };
+
+  getVideoStartTime() {
+    if (this.props.name === "idle") {
+      return IDLE_START_POINTS_S[
+        Math.floor(Math.random() * IDLE_START_POINTS_S.length)
+      ];
+    }
+    return 0;
   }
 
   render() {
@@ -47,7 +74,7 @@ export default class Snippet extends React.Component {
           autoPlay
           muted
           loop
-          onLoadedData={this.props.onVideoLoaded}
+          onLoadedData={this.onVideoLoaded}
           width={this.props.width}
           height={this.props.height}
           style={{

@@ -24,7 +24,7 @@ export default class App extends React.Component {
             width={400}
             height={400}
           />
-          <div>{this.state.snippetName}</div>
+          <div style={{ paddingTop: "20px" }}>{this.state.snippetName}</div>
         </header>
       </div>
     );

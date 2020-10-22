@@ -6,6 +6,7 @@ import SnippetTransition from "./SnippetTransition";
 const DIRECTION_RADIUS_BUFFER = 0.75;
 
 // TODO
+// * Support for delayed state change. Short term memory.
 // * Add support for multiple videos for each state
 // * Add transitions states back to idle
 // * Add ideal transition points within videos (in state machine)
@@ -73,24 +74,23 @@ export default class ReactivePortrait extends React.Component {
       side = "Left";
     }
 
-    // 8 directions: up, upperLeft, upperRight, left, right, lowerLeft, lowerRight, down
     var direction;
     if (angle > 67.5) {
       direction = "Up";
     } else if (angle > 22.5) {
-      direction = "Upper" + side;
+      direction = "Up" + side;
     } else if (angle > -22.5) {
       direction = side;
     } else if (angle > -67.5) {
-      direction = "Lower" + side;
+      direction = "Down" + side;
     } else {
       direction = "Down";
     }
     this.updateStateMachine("mouse" + direction);
   };
 
-  onMouseEnter = () => {
-    this.updateStateMachine("mouseEnter");
+  onAttention = () => {
+    this.updateStateMachine("attention");
   };
 
   updateStateMachine(transition) {
@@ -113,7 +113,8 @@ export default class ReactivePortrait extends React.Component {
     return (
       <div
         ref={this.rootRef}
-        onMouseEnter={this.onMouseEnter}
+        onMouseEnter={this.onAttention}
+        onClick={this.onAttention}
         style={{
           position: "relative",
           width: this.props.width,
