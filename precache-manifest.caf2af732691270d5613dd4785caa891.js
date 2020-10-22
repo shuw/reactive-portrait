@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "bfe2afd1c7c7881df12ad5297767ba1b",
+    "revision": "f2bfae0585d3995cf3d654a1bf93f2c4",
     "url": "/reactive-portrait/index.html"
   },
   {
-    "revision": "9f85e1d2c71e2c9cee62",
+    "revision": "70f59154a23ee169228d",
     "url": "/reactive-portrait/static/css/main.5f361e03.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/reactive-portrait/static/js/2.d5d99833.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "9f85e1d2c71e2c9cee62",
-    "url": "/reactive-portrait/static/js/main.3a9666d3.chunk.js"
+    "revision": "70f59154a23ee169228d",
+    "url": "/reactive-portrait/static/js/main.f1554b8b.chunk.js"
   },
   {
     "revision": "6c3856abd7465747d631",
