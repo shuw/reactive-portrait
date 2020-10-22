@@ -42,7 +42,7 @@ export default class ReactivePortrait extends React.Component {
   }
 
   tick50Ms = () => {
-    this.updateStateMachine("tick50Ms");
+    this.invokeEvent("tick50Ms");
   };
 
   onMouseMove = (event) => {
@@ -85,14 +85,14 @@ export default class ReactivePortrait extends React.Component {
     } else {
       direction = "Down";
     }
-    this.updateStateMachine("mouse" + direction);
+    this.invokeEvent("mouse" + direction);
   };
 
   onAttention = () => {
-    this.updateStateMachine("attention");
+    this.invokeEvent("attention");
   };
 
-  updateStateMachine(transition) {
+  invokeEvent(transition) {
     var newName = this.stateMachine.getNewState(transition);
     if (newName === this.state.newSnippetName) {
       return;

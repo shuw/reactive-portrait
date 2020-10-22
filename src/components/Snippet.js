@@ -74,6 +74,7 @@ export default class Snippet extends React.Component {
           autoPlay
           muted
           loop
+          playsInline
           onLoadedData={this.onVideoLoaded}
           width={this.props.width}
           height={this.props.height}

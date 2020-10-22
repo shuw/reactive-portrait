@@ -1,4 +1,4 @@
-const DIRECTION_PROB = 0.05;
+const DIRECTION_PROB = 0.01;
 
 // TODO
 // * States to introduce:
@@ -20,6 +20,15 @@ const States = {
         thinking: { probability: 0.2 },
       },
 
+      thumbsUp: { thumbsUp: {} },
+
+      bye: { bye: {} },
+
+      lookLeft: { lookingLeft: {} },
+      lookRight: { lookingRight: {} },
+      lookDown: { lookingDown: {} },
+      lookUp: { lookingUp: {} },
+
       mouseUp: { lookingUp: { probability: DIRECTION_PROB } },
       mouseUpLeft: { lookingUpLeft: { probability: DIRECTION_PROB } },
       mouseUpRight: {
@@ -32,6 +41,12 @@ const States = {
       mouseDownRight: { lookingDownRight: { probability: DIRECTION_PROB } },
     },
   },
+
+  bye: {
+    minDurationS: 3.5,
+    transitions: { tick50Ms: { wave: {} } },
+  },
+
   wave: {
     minDurationS: 3,
     transitions: { tick50Ms: { idle: {} } },
