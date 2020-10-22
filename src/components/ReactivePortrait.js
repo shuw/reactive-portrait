@@ -6,10 +6,8 @@ import SnippetTransition from "./SnippetTransition";
 const DIRECTION_RADIUS_BUFFER = 0.75;
 
 // TODO
+// * Handle external events (e.g. click on photo)
 // * Support for delayed state change. Short term memory.
-// * Add support for multiple videos for each state
-// * Add transitions states back to idle
-// * Add ideal transition points within videos (in state machine)
 // * Add click handler (maybe navigate to public site)
 // * Integrate on frontpage of personal website
 export default class ReactivePortrait extends React.Component {
