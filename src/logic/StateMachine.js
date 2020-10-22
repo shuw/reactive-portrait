@@ -1,11 +1,17 @@
 // TODO
-// * Add entry state that is separate from idle
+// * States to introduce: smile, silly, all directions, multiple idle states
 const States = {
   idle: {
     minDurationMs: 0.0,
     transitions: {
       mouseEnter: {
-        wave: { probability: 1.0 },
+        wave: {},
+      },
+      mouseLeft: {
+        lookingLeft: {},
+      },
+      mouseRight: {
+        lookingRight: {},
       },
     },
   },
@@ -13,7 +19,23 @@ const States = {
     minDurationMs: 3000,
     transitions: {
       tick50Ms: {
-        idle: { probability: 1 },
+        idle: {},
+      },
+    },
+  },
+  lookingLeft: {
+    minDurationMs: 3000,
+    transitions: {
+      tick50Ms: {
+        idle: {},
+      },
+    },
+  },
+  lookingRight: {
+    minDurationMs: 3000,
+    transitions: {
+      tick50Ms: {
+        idle: {},
       },
     },
   },
@@ -48,7 +70,8 @@ export default class StateMachine {
     }
 
     for (const entry of Object.entries(newStates)) {
-      if (Math.random() > entry[1].probability) {
+      const probability = entry[1].probability || 1.0;
+      if (Math.random() > probability) {
         continue;
       }
 

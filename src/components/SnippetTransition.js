@@ -17,9 +17,9 @@ export default class SnippetTransition extends React.Component {
   constructor(props) {
     super(props);
 
+    this.transitionStartTime = null;
     this.state = {
       transitionFraction: 1.0,
-      transitionStartTime: null,
     };
 
     this.nextSnippetRef = React.createRef();
@@ -31,7 +31,7 @@ export default class SnippetTransition extends React.Component {
     }
 
     nextState.transitionFraction = 0.0;
-    nextState.transitionStartTime = null;
+    this.transitionStartTime = null;
 
     return true;
   }
@@ -54,12 +54,12 @@ export default class SnippetTransition extends React.Component {
     }
 
     // reset transition, and play from beginning
-    if (!this.state.transitionStartTime) {
-      this.state.transitionStartTime = new Date().getTime();
+    if (!this.transitionStartTime) {
+      this.transitionStartTime = new Date().getTime();
       this.nextSnippetRef.current.playFromBeginning();
     }
 
-    var timeElapsed = new Date().getTime() - this.state.transitionStartTime;
+    var timeElapsed = new Date().getTime() - this.transitionStartTime;
     var transitionFraction = Math.min(
       timeElapsed / VIDEO_CROSS_FADE_TIME_MS,
       1.0

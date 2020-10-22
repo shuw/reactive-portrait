@@ -20,17 +20,19 @@ export default class ReactivePortrait extends React.Component {
 
   constructor(props) {
     super(props);
-    this._stateMachine = new StateMachine(ReactivePortrait.defaultSnippet);
+    this.stateMachine = new StateMachine(ReactivePortrait.defaultSnippet);
+    this.rootRef = React.createRef();
 
     this.state = {
-      stateMachine: this._stateMachine,
-      snippetName: this._stateMachine.getState(),
-      newSnippetName: this._stateMachine.getState(),
+      stateMachine: this.stateMachine,
+      snippetName: this.stateMachine.getState(),
+      newSnippetName: this.stateMachine.getState(),
     };
   }
 
   componentDidMount() {
     this._timer = window.setInterval(this.tick50Ms, 100);
+    window.addEventListener("mousemove", this.onMouseMove);
   }
 
   componentWillUnmount() {
@@ -38,15 +40,52 @@ export default class ReactivePortrait extends React.Component {
   }
 
   tick50Ms = () => {
-    this.updatePortraitName("tick50Ms");
+    this.updateStateMachine("tick50Ms");
+  };
+
+  onMouseMove = (event) => {
+    if (!this.rootRef.current) {
+      return;
+    }
+
+    const rect = this.rootRef.current.getBoundingClientRect();
+    const centerX = rect.x + Math.round(rect.width / 2);
+    const centerY = rect.y + Math.round(rect.height / 2);
+
+    const offsetX = event.clientX - centerX;
+    const offsetY = event.clientY - centerY;
+
+    var angle, side;
+    if (offsetX > 0) {
+      angle = Math.atan((-1 * offsetY) / offsetX) * (180 / Math.PI);
+      side = "Right";
+    } else {
+      angle = Math.atan(offsetY / offsetX) * (180 / Math.PI);
+      side = "Left";
+    }
+
+    // 8 directions: up, upperLeft, upperRight, left, right, lowerLeft, lowerRight, down
+    var direction;
+    if (angle > 67.5) {
+      direction = "Up";
+    } else if (angle > 22.5) {
+      direction = "Upper" + side;
+    } else if (angle > -22.5) {
+      direction = side;
+    } else if (angle > -67.5) {
+      direction = "Lower" + side;
+    } else {
+      direction = "Down";
+    }
+    this.updateStateMachine("mouse" + direction);
   };
 
   onMouseEnter = () => {
-    this.updatePortraitName("mouseEnter");
+    this.updateStateMachine("mouseEnter");
   };
 
-  updatePortraitName(transition) {
-    var newName = this._stateMachine.getNewState(transition);
+  updateStateMachine(transition) {
+    var newName = this.stateMachine.getNewState(transition);
     if (newName === this.state.newSnippetName) {
       return;
     }
@@ -64,6 +103,7 @@ export default class ReactivePortrait extends React.Component {
   render() {
     return (
       <div
+        ref={this.rootRef}
         onMouseEnter={this.onMouseEnter}
         style={{
           position: "relative",
