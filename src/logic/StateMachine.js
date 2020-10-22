@@ -27,7 +27,7 @@ const States = {
       },
       mouseLeft: { lookingLeft: { probability: DIRECTION_PROB } },
       mouseRight: { lookingRight: { probability: DIRECTION_PROB } },
-      mouseDown: { lookingDown: { probability: DIRECTION_PROB } },
+      mouseDown: { lookingDown: { probability: DIRECTION_PROB * 0.5 } },
       mouseDownLeft: { lookingDownLeft: { probability: DIRECTION_PROB } },
       mouseDownRight: { lookingDownRight: { probability: DIRECTION_PROB } },
     },
