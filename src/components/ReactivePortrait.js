@@ -7,6 +7,7 @@ const DIRECTION_RADIUS_BUFFER = 0.75;
 
 // TODO
 // * Incorporate yawn state
+// * Incorporate gyro signal
 // * Support for delayed state change. Short term memory.
 export default class ReactivePortrait extends React.Component {
   static defaultSnippet = "idle";
