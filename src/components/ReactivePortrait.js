@@ -4,6 +4,7 @@ import StateMachine from "../logic/StateMachine";
 import SnippetTransition from "./SnippetTransition";
 
 const DIRECTION_RADIUS_BUFFER = 0.75;
+const MIN_DURATION_BETWEEN_MOUSE_EVENT_MS = 50;
 
 // TODO
 // * Incorporate yawn state
@@ -23,6 +24,7 @@ export default class ReactivePortrait extends React.Component {
     super(props);
     this.stateMachine = new StateMachine(ReactivePortrait.defaultSnippet);
     this.rootRef = React.createRef();
+    this.lastMouseEvent = new Date().getTime();
 
     this.state = {
       stateMachine: this.stateMachine,
@@ -48,6 +50,13 @@ export default class ReactivePortrait extends React.Component {
     if (!this.rootRef.current) {
       return;
     }
+
+    const currTime = new Date().getTime();
+    const elapsedMs = currTime - this.lastMouseEvent;
+    if (elapsedMs < MIN_DURATION_BETWEEN_MOUSE_EVENT_MS) {
+      return;
+    }
+    this.lastMouseEvent = currTime;
 
     const rect = this.rootRef.current.getBoundingClientRect();
     const centerX = rect.x + Math.round(rect.width / 2);
@@ -84,6 +93,7 @@ export default class ReactivePortrait extends React.Component {
     } else {
       direction = "Down";
     }
+
     this.invokeEvent("mouse" + direction);
   };
 
