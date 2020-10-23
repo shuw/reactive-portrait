@@ -9,8 +9,8 @@ const States = {
     transitions: {
       tick50Ms: {
         wave: { probability: 0.001 },
-        lookingAround: { probability: 0.001 },
-        lookingAround2: { probability: 0.001 },
+        lookingAround: { probability: 0.0003 },
+        lookingAround2: { probability: 0.0002 },
       },
 
       attention: {
@@ -64,7 +64,7 @@ const States = {
     transitions: { tick50Ms: { idle: {} } },
   },
   lookingAround: {
-    minDurationS: 7,
+    minDurationS: 7.2,
     transitions: { tick50Ms: { idle: {} } },
   },
   lookingAround2: {
