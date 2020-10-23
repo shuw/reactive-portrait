@@ -2,6 +2,8 @@
 
 This is a prototype for a Living Portrait Photo built using a collection of short video snippets and a simple state machine. It is a work in progress.
 
+Try it out here: [https://shuw.github.io/reactive-portrait](https://shuw.github.io/reactive-portrait).
+
 ## Available Scripts
 
 In the project directory, you can run:
