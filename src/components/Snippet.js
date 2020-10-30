@@ -3,6 +3,9 @@ import PropTypes from "prop-types";
 
 const IDLE_START_POINTS_S = [10, 23.26];
 
+// How close to the end of a video before returning it's almost finished
+const VIDEO_ALMOST_FINISHED_THRESHOLD_S = 0.1;
+
 // Encapsulates a Video Snippet
 export default class Snippet extends React.Component {
   static propTypes = {
@@ -37,6 +40,17 @@ export default class Snippet extends React.Component {
     }
 
     this.videoRef.current.currentTime = startTime;
+  }
+
+  isAlmostFinished() {
+    if (!this.isVideoReady()) {
+      return false;
+    }
+
+    return (
+      this.videoRef.current.duration - this.videoRef.current.currentTime <
+      VIDEO_ALMOST_FINISHED_THRESHOLD_S
+    );
   }
 
   onVideoLoaded = (e) => {

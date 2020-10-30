@@ -25,6 +25,7 @@ export default class ReactivePortrait extends React.Component {
     this.stateMachine = new StateMachine(ReactivePortrait.defaultSnippet);
     this.rootRef = React.createRef();
     this.lastMouseEvent = new Date().getTime();
+    this.snippetRef = React.createRef();
 
     this.state = {
       stateMachine: this.stateMachine,
@@ -44,6 +45,9 @@ export default class ReactivePortrait extends React.Component {
 
   tick50Ms = () => {
     this.invokeEvent("tick50Ms");
+    if (this.snippetRef.current?.isAlmostFinished()) {
+      this.invokeEvent("almostFinished");
+    }
   };
 
   onMouseMove = (event) => {
@@ -101,8 +105,8 @@ export default class ReactivePortrait extends React.Component {
     this.invokeEvent("attention");
   };
 
-  invokeEvent(transition) {
-    var newName = this.stateMachine.getNewState(transition);
+  invokeEvent(eventName) {
+    var newName = this.stateMachine.getNewState(eventName);
     if (newName === this.state.newSnippetName) {
       return;
     }
@@ -130,6 +134,7 @@ export default class ReactivePortrait extends React.Component {
         }}
       >
         <SnippetTransition
+          ref={this.snippetRef}
           mediaPath={this.props.snippetsMediaPath}
           width={this.props.width}
           height={this.props.height}

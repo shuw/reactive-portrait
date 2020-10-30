@@ -7,7 +7,7 @@ const States = {
   idle: {
     minDurationS: 0.0,
     transitions: {
-      tick50Ms: {
+      tick50: {
         wave: { probability: 0.001 },
         lookingAround: { probability: 0.0003 },
         lookingAround2: { probability: 0.0002 },
@@ -44,64 +44,64 @@ const States = {
 
   bye: {
     minDurationS: 3.5,
-    transitions: { tick50Ms: { wave: {} } },
+    transitions: { almostFinished: { wave: {} } },
   },
 
   wave: {
     minDurationS: 3,
-    transitions: { tick50Ms: { idle: {} } },
+    transitions: { almostFinished: { idle: {} } },
   },
   thumbsUp: {
     minDurationS: 4.6,
-    transitions: { tick50Ms: { idle: {} } },
+    transitions: { almostFinished: { idle: {} } },
   },
   knockKnock: {
     minDurationS: 6.9,
-    transitions: { tick50Ms: { idle: {} } },
+    transitions: { almostFinished: { idle: {} } },
   },
   thinking: {
     minDurationS: 6.9,
-    transitions: { tick50Ms: { idle: {} } },
+    transitions: { almostFinished: { idle: {} } },
   },
   lookingAround: {
     minDurationS: 7.2,
-    transitions: { tick50Ms: { idle: {} } },
+    transitions: { almostFinished: { idle: {} } },
   },
   lookingAround2: {
     minDurationS: 6.3,
-    transitions: { tick50Ms: { idle: {} } },
+    transitions: { almostFinished: { idle: {} } },
   },
   lookingUp: {
     minDurationS: 5.6,
-    transitions: { tick50Ms: { idle: {} } },
+    transitions: { almostFinished: { idle: {} } },
   },
   lookingUpLeft: {
     minDurationS: 5.5,
-    transitions: { tick50Ms: { idle: {} } },
+    transitions: { almostFinished: { idle: {} } },
   },
   lookingUpRight: {
     minDurationS: 7,
-    transitions: { tick50Ms: { idle: {} } },
+    transitions: { almostFinished: { idle: {} } },
   },
   lookingLeft: {
     minDurationS: 6,
-    transitions: { tick50Ms: { idle: {} } },
+    transitions: { almostFinished: { idle: {} } },
   },
   lookingRight: {
     minDurationS: 5.5,
-    transitions: { tick50Ms: { idle: {} } },
+    transitions: { almostFinished: { idle: {} } },
   },
   lookingDown: {
     minDurationS: 5.3,
-    transitions: { tick50Ms: { idle: {} } },
+    transitions: { almostFinished: { idle: {} } },
   },
   lookingDownLeft: {
     minDurationS: 7.3,
-    transitions: { tick50Ms: { idle: {} } },
+    transitions: { almostFinished: { idle: {} } },
   },
   lookingDownRight: {
     minDurationS: 7.3,
-    transitions: { tick50Ms: { idle: {} } },
+    transitions: { almostFinished: { idle: {} } },
   },
 };
 
@@ -136,6 +136,11 @@ export default class StateMachine {
     const randomFloat = Math.random();
     var probability = 0.0;
     for (const entry of Object.entries(newStates)) {
+      const newState = entry[0];
+      if (!(newState in States)) {
+        continue;
+      }
+
       probability += entry[1].probability || 1.0;
       if (probability < randomFloat) {
         continue;
@@ -143,7 +148,7 @@ export default class StateMachine {
 
       // found new state, reset timer
       this._stateStartTime = new Date().getTime();
-      this._state = entry[0];
+      this._state = newState;
       return;
     }
   }

@@ -23,7 +23,23 @@ export default class SnippetTransition extends React.Component {
       transitionFraction: 1.0,
     };
 
+    this.snippetRef = React.createRef();
     this.nextSnippetRef = React.createRef();
+  }
+
+  isAlmostFinished() {
+    if (this.props.newName && this.props.newName !== this.props.name) {
+      if (!this.nextSnippetRef.current) {
+        return false;
+      }
+      return this.nextSnippetRef.current.isAlmostFinished();
+    }
+
+    if (!this.snippetRef.current) {
+      return false;
+    }
+
+    return this.snippetRef.current.isAlmostFinished();
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -79,6 +95,7 @@ export default class SnippetTransition extends React.Component {
     return (
       <div>
         <Snippet
+          ref={this.snippetRef}
           key={this.props.name}
           mediaPath={this.props.mediaPath}
           width={this.props.width}
