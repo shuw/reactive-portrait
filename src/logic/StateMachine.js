@@ -30,7 +30,6 @@ const States = {
       thumbsUp: { thumbsUp: {} },
 
       bye: { bye: {} },
-
       lookLeft: { lookingLeft: {} },
       lookRight: { lookingRight: {} },
       lookDown: { lookingDown: {} },
@@ -75,48 +74,21 @@ const States = {
     transitions: { almostFinished: { wave: {} } },
   },
 
-  wave: {
-    transitions: { almostFinished: { idle: {} } },
-  },
-  thumbsUp: {
-    transitions: { almostFinished: { idle: {} } },
-  },
-  knockKnock: {
-    transitions: { almostFinished: { idle: {} } },
-  },
-  thinking: {
-    transitions: { almostFinished: { idle: {} } },
-  },
-  lookingAround: {
-    transitions: { almostFinished: { idle: {} } },
-  },
-  lookingAround2: {
-    transitions: { almostFinished: { idle: {} } },
-  },
-  lookingUp: {
-    transitions: { almostFinished: { idle: {} } },
-  },
-  lookingUpLeft: {
-    transitions: { almostFinished: { idle: {} } },
-  },
-  lookingUpRight: {
-    transitions: { almostFinished: { idle: {} } },
-  },
-  lookingLeft: {
-    transitions: { almostFinished: { idle: {} } },
-  },
-  lookingRight: {
-    transitions: { almostFinished: { idle: {} } },
-  },
-  lookingDown: {
-    transitions: { almostFinished: { idle: {} } },
-  },
-  lookingDownLeft: {
-    transitions: { almostFinished: { idle: {} } },
-  },
-  lookingDownRight: {
-    transitions: { almostFinished: { idle: {} } },
-  },
+  smile: { transitions: { almostFinished: { idle: {} } } },
+  wave: { transitions: { almostFinished: { idle: {} } } },
+  thumbsUp: { transitions: { almostFinished: { idle: {} } } },
+  knockKnock: { transitions: { almostFinished: { idle: {} } } },
+  thinking: { transitions: { almostFinished: { idle: {} } } },
+  lookingAround: { transitions: { almostFinished: { idle: {} } } },
+  lookingAround2: { transitions: { almostFinished: { idle: {} } } },
+  lookingUp: { transitions: { almostFinished: { idle: {} } } },
+  lookingUpLeft: { transitions: { almostFinished: { idle: {} } } },
+  lookingUpRight: { transitions: { almostFinished: { idle: {} } } },
+  lookingLeft: { transitions: { almostFinished: { idle: {} } } },
+  lookingRight: { transitions: { almostFinished: { idle: {} } } },
+  lookingDown: { transitions: { almostFinished: { idle: {} } } },
+  lookingDownLeft: { transitions: { almostFinished: { idle: {} } } },
+  lookingDownRight: { transitions: { almostFinished: { idle: {} } } },
 };
 
 export default class StateMachine {
