@@ -11,7 +11,7 @@ export default class States {
 
     return {
       idle: {
-        transitions: {
+        events: {
           tick50: {
             minTimeElapsedInState: 10,
             wave: { probability: 0.001 },
@@ -71,24 +71,24 @@ export default class States {
       },
 
       bye: {
-        transitions: { almostFinished: { wave: {} } },
+        events: { almostFinished: { wave: {} } },
       },
 
-      smile: { transitions: { almostFinished: { idle: {} } } },
-      wave: { transitions: { almostFinished: { idle: {} } } },
-      thumbsUp: { transitions: { almostFinished: { idle: {} } } },
-      knockKnock: { transitions: { almostFinished: { idle: {} } } },
-      thinking: { transitions: { almostFinished: { idle: {} } } },
-      lookingAround: { transitions: { almostFinished: { idle: {} } } },
-      lookingAround2: { transitions: { almostFinished: { idle: {} } } },
-      lookingUp: { transitions: { almostFinished: { idle: {} } } },
-      lookingUpLeft: { transitions: { almostFinished: { idle: {} } } },
-      lookingUpRight: { transitions: { almostFinished: { idle: {} } } },
-      lookingLeft: { transitions: { almostFinished: { idle: {} } } },
-      lookingRight: { transitions: { almostFinished: { idle: {} } } },
-      lookingDown: { transitions: { almostFinished: { idle: {} } } },
-      lookingDownLeft: { transitions: { almostFinished: { idle: {} } } },
-      lookingDownRight: { transitions: { almostFinished: { idle: {} } } },
+      smile: { events: { almostFinished: { idle: {} } } },
+      wave: { events: { almostFinished: { idle: {} } } },
+      thumbsUp: { events: { almostFinished: { idle: {} } } },
+      knockKnock: { events: { almostFinished: { idle: {} } } },
+      thinking: { events: { almostFinished: { idle: {} } } },
+      lookingAround: { events: { almostFinished: { idle: {} } } },
+      lookingAround2: { events: { almostFinished: { idle: {} } } },
+      lookingUp: { events: { almostFinished: { idle: {} } } },
+      lookingUpLeft: { events: { almostFinished: { idle: {} } } },
+      lookingUpRight: { events: { almostFinished: { idle: {} } } },
+      lookingLeft: { events: { almostFinished: { idle: {} } } },
+      lookingRight: { events: { almostFinished: { idle: {} } } },
+      lookingDown: { events: { almostFinished: { idle: {} } } },
+      lookingDownLeft: { events: { almostFinished: { idle: {} } } },
+      lookingDownRight: { events: { almostFinished: { idle: {} } } },
     };
   }
 }

@@ -8,8 +8,20 @@ Try it out here: [https://shuw.github.io/reactive-portrait](https://shuw.github.
 
 Instructions coming soon.
 
+### 1. Include bindReactivePortrait javascript on your webpage
+
+```
+<script src="https://shuw.github.io/reactive-portrait/components/bindReactivePortrait_v0_1.js"></script>
 ```
 
+### 2. Bind an element on your webpage with a Reactive Portrait
+
+```
+bindReactivePortrait(
+  <element you want to bind to>,
+  150,
+  <path to media snippets>,
+);
 ```
 
 ## Available Scripts

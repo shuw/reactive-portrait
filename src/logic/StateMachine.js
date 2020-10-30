@@ -27,7 +27,7 @@ export default class StateMachine {
       return;
     }
 
-    var newStates = stateInfo.transitions[event];
+    var newStates = stateInfo.events[event];
     if (!newStates) {
       return;
     }
