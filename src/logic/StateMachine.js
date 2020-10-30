@@ -1,4 +1,10 @@
-const DIRECTION_PROB = 0.02;
+if (new URL(document.location).searchParams.get("lookAround") !== null) {
+  var DIRECTION_PROB = 1;
+  var IDLE_BEFORE_DIRECTION = 1;
+} else {
+  var DIRECTION_PROB = 0.02;
+  var IDLE_BEFORE_DIRECTION = 5;
+}
 
 // TODO
 // * States to introduce:
@@ -9,6 +15,7 @@ const States = {
       tick50: {
         minTimeElapsedInState: 10,
         wave: { probability: 0.001 },
+        smile: { probability: 0.0005 },
         lookingAround: { probability: 0.0003 },
         lookingAround2: { probability: 0.0002 },
       },
@@ -16,7 +23,7 @@ const States = {
       attention: {
         wave: { probability: 0.2 },
         thumbsUp: { probability: 0.3 },
-        knockKnock: { probability: 0.3 },
+        smile: { probability: 0.3 },
         thinking: { probability: 0.2 },
       },
 
@@ -30,35 +37,35 @@ const States = {
       lookUp: { lookingUp: {} },
 
       mouseUp: {
-        minTimeElapsedInState: 5,
+        minTimeElapsedInState: IDLE_BEFORE_DIRECTION,
         lookingUp: { probability: DIRECTION_PROB },
       },
       mouseUpLeft: {
-        minTimeElapsedInState: 5,
+        minTimeElapsedInState: IDLE_BEFORE_DIRECTION,
         lookingUpLeft: { probability: DIRECTION_PROB },
       },
       mouseUpRight: {
-        minTimeElapsedInState: 5,
+        minTimeElapsedInState: IDLE_BEFORE_DIRECTION,
         lookingUpRight: { probability: DIRECTION_PROB },
       },
       mouseLeft: {
-        minTimeElapsedInState: 5,
+        minTimeElapsedInState: IDLE_BEFORE_DIRECTION,
         lookingLeft: { probability: DIRECTION_PROB },
       },
       mouseRight: {
-        minTimeElapsedInState: 5,
+        minTimeElapsedInState: IDLE_BEFORE_DIRECTION,
         lookingRight: { probability: DIRECTION_PROB },
       },
       mouseDown: {
-        minTimeElapsedInState: 5,
+        minTimeElapsedInState: IDLE_BEFORE_DIRECTION,
         lookingDown: { probability: DIRECTION_PROB * 0.5 },
       },
       mouseDownLeft: {
-        minTimeElapsedInState: 5,
+        minTimeElapsedInState: IDLE_BEFORE_DIRECTION,
         lookingDownLeft: { probability: DIRECTION_PROB },
       },
       mouseDownRight: {
-        minTimeElapsedInState: 5,
+        minTimeElapsedInState: IDLE_BEFORE_DIRECTION,
         lookingDownRight: { probability: DIRECTION_PROB },
       },
     },
@@ -131,7 +138,11 @@ export default class StateMachine {
 
     // handle failure by going back to idle
     if (event === "failed") {
-      return this._setState("idle");
+      this._setState("idle");
+
+      // disable minTimeElapsedInState
+      this._stateStartTime = 0;
+      return;
     }
 
     var newStates = stateInfo.transitions[event];
@@ -160,7 +171,8 @@ export default class StateMachine {
       }
 
       // found new state, reset timer
-      return this._setState(newStateName);
+      this._setState(newStateName);
+      return;
     }
   }
 

@@ -113,7 +113,7 @@ export default class ReactivePortrait extends React.Component {
   };
 
   invokeEvent(eventName) {
-    // console.log("event" + eventName);
+    // console.log("event: " + eventName);
 
     var newState = this.stateMachine.getNewState(eventName);
     if (newState.name === this.state.newState.name) {
