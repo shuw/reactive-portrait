@@ -19,11 +19,15 @@ export default class ReactivePortrait extends React.Component {
     onSnippetChanged: PropTypes.func,
     snippetsMediaPath: PropTypes.string,
     onLoaded: PropTypes.func,
+    stateMachineOptions: PropTypes.object,
   };
 
   constructor(props) {
     super(props);
-    this.stateMachine = new StateMachine(ReactivePortrait.defaultSnippet);
+    this.stateMachine = new StateMachine(
+      ReactivePortrait.defaultSnippet,
+      props.stateMachineOptions ?? {}
+    );
     this.rootRef = React.createRef();
     this.lastMouseEvent = new Date().getTime();
     this.snippetRef = React.createRef();

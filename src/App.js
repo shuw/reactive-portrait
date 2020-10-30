@@ -21,16 +21,21 @@ export default class App extends React.Component {
       ","
     );
 
+    const stateMachineOptions = {
+      lookAround: params.get("lookAround") !== null,
+    };
+
     const portraits = names.map((name) => {
       return (
-        <div style={{ display: "inline-block", padding: "10px" }}>
+        <li key={name} style={{ display: "inline-block", padding: "20px" }}>
           <ReactivePortrait
+            stateMachineOptions={stateMachineOptions}
             snippetsMediaPath={"/reactive-portrait/media/" + name}
             onSnippetChanged={this.onPortraitChanged}
             width={400}
             height={400}
           />
-        </div>
+        </li>
       );
     });
 
@@ -40,7 +45,7 @@ export default class App extends React.Component {
     return (
       <div className="App">
         <header className="App-header">
-          <div>{portraits}</div>
+          <ul>{portraits}</ul>
           {hideStateInfo ? null : (
             <div style={{ paddingTop: "20px" }}>{this.state.snippetName}</div>
           )}
