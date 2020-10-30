@@ -4,31 +4,31 @@ This is a prototype for a Living Portrait Photo built using a collection of shor
 
 Try out an example here: [https://shuw.github.io/reactive-portrait](https://shuw.github.io/reactive-portrait).
 
-## How to self host this on your website?
+## How can I add Reactive Portrait on any website?
 
 ### 1. Include bindReactivePortrait.js script on your webpage
 
-```
+```javascript
 <script src="https://shuw.github.io/reactive-portrait/components/bindReactivePortrait_v0_1.js"></script>
 ```
 
 ### 2. Bind a Reactive Portrait to an element on your page
 
-To create your own Reactive Portrait, host a folder of video snippets and point to that path. Here is [a folder of example videos](https://github.com/shuw/reactive-portrait/tree/gh-pages/media/shuw). Video snippets are ideally square are named after [states defined here](https://github.com/shuw/reactive-portrait/blob/master/src/logic/States.js).
+To create your own Reactive Portrait, host a folder of video snippets and point to that path. Here is [a folder of example videos](https://github.com/shuw/reactive-portrait/tree/gh-pages/media/shuw). Video snippets are ideally square are named after states in [States.js](https://github.com/shuw/reactive-portrait/blob/master/src/logic/States.js).
 
-```
+```javascript
 var portrait = bindReactivePortrait(
   portraitElement, // replace with reference to your element
   150, // size in pixels
-  "https://shuw.github.io/reactive-portrait/media/shuw", // path to media snippets
+  "https://shuw.github.io/reactive-portrait/media/shuw" // path to media snippets
 );
 ```
 
 ### 3. Attach events for fun!
 
-You can invoke events on the Reactive Portrait like this example below. Events are attached to states and [defined here]([states defined here](https://github.com/shuw/reactive-portrait/blob/master/src/logic/States.js)).
+You can invoke events on the Reactive Portrait like this example below. Events are also defined [in States.js](https://github.com/shuw/reactive-portrait/blob/master/src/logic/States.js).
 
-```
+```javascript
 // this example uses jQuery, but it's not required at all
 $(".links").mouseenter(() => {
   portrait.current.invokeEvent("thumbsUp");
