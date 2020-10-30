@@ -2,7 +2,7 @@
 
 This is a prototype for a Living Portrait Photo built using a collection of short video snippets and a simple state machine. It is a work in progress.
 
-Try it out here: [https://shuw.github.io/reactive-portrait](https://shuw.github.io/reactive-portrait).
+Try out an example here: [https://shuw.github.io/reactive-portrait](https://shuw.github.io/reactive-portrait).
 
 ## How to self host this on your website?
 
@@ -16,15 +16,30 @@ Instructions coming soon.
 
 ### 2. Bind an element on your webpage with a Reactive Portrait
 
+To create your own Reactive Portrait, host a folder of video snippets and point to that path. Here is [an example](https://github.com/shuw/reactive-portrait/tree/gh-pages/media/shuw).
+
+Video snippets are ideally square and should be named after the [states defined here](https://github.com/shuw/reactive-portrait/blob/master/src/logic/States.js).
+
 ```
-bindReactivePortrait(
-  <element you want to bind to>,
-  150,
-  <path to media snippets>,
+var portrait = bindReactivePortrait(
+  rootElement, // replace with reference to your element
+  150, // size in pixels
+  "https://shuw.github.io/reactive-portrait/media/shuw", // path to media snippets
 );
 ```
 
-## Available Scripts
+### 3. Attach events
+
+You can hook up events to the Reactive Portrait like this (example utilizes jQuery, but it's not required).
+Events are attached to states and [defined here]([states defined here](https://github.com/shuw/reactive-portrait/blob/master/src/logic/States.js)).
+
+```
+$(".links").mouseenter(() => {
+  portrait.current.invokeEvent("thumbsUp");
+});
+```
+
+## Scripts for this project
 
 In the project directory, you can run:
 
