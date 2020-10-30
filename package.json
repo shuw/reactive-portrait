@@ -19,7 +19,8 @@
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "exportComponent": "webpack --mode development --config webpack.config.js"
+    "exportComponent": "webpack --mode development --config webpack.config.js",
+    "exportComponentProd": "webpack --mode production --config webpack.config.js"
   },
   "eslintConfig": {
     "extends": "react-app"

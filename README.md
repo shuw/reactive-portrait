@@ -4,6 +4,14 @@ This is a prototype for a Living Portrait Photo built using a collection of shor
 
 Try it out here: [https://shuw.github.io/reactive-portrait](https://shuw.github.io/reactive-portrait).
 
+## How to self host this on your website?
+
+Instructions coming soon.
+
+```
+
+```
+
 ## Available Scripts
 
 In the project directory, you can run:
