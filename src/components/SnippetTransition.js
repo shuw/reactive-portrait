@@ -13,6 +13,7 @@ export default class SnippetTransition extends React.Component {
     name: PropTypes.string,
     newName: PropTypes.string,
     mediaPath: PropTypes.string,
+    onError: PropTypes.func,
   };
 
   constructor(props) {
@@ -24,22 +25,14 @@ export default class SnippetTransition extends React.Component {
     };
 
     this.snippetRef = React.createRef();
-    this.nextSnippetRef = React.createRef();
   }
 
   isAlmostFinished() {
-    if (this.props.newName && this.props.newName !== this.props.name) {
-      if (!this.nextSnippetRef.current) {
-        return false;
-      }
-      return this.nextSnippetRef.current.isAlmostFinished();
-    }
+    return this.snippetRef.current?.isAlmostFinished() ?? false;
+  }
 
-    if (!this.snippetRef.current) {
-      return false;
-    }
-
-    return this.snippetRef.current.isAlmostFinished();
+  hasFailedToLoad() {
+    return this.snippetRef.current?.hasFailedToLoad() ?? false;
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -57,23 +50,32 @@ export default class SnippetTransition extends React.Component {
     this._timer = window.setInterval(this.updateTransition, FRAME_INTERVAL_MS);
   }
 
+  componentWillUnmount() {
+    window.clearInterval(this._timer);
+  }
+
   updateTransition = () => {
     if (this.state.transitionFraction >= 1.0) {
       return;
     }
 
-    // wait for video to be ready before transitioning
-    if (
-      !this.nextSnippetRef.current ||
-      !this.nextSnippetRef.current.isVideoReady()
-    ) {
+    if (!this.snippetRef.current) {
       return;
     }
 
-    // reset transition, and play from beginning
+    if (!this.snippetRef.current.isVideoReady()) {
+      // wait for video to be ready before transitioning
+      return;
+    }
+
+    // reset transition
     if (!this.transitionStartTime) {
       this.transitionStartTime = new Date().getTime();
-      this.nextSnippetRef.current.playFromBeginning();
+
+      // play from beginning (if not resetting to idle state)
+      if (this.props.name !== "idle" || this.props.newName !== "idle") {
+        this.snippetRef.current.playFromBeginning();
+      }
     }
 
     var timeElapsed = new Date().getTime() - this.transitionStartTime;
@@ -87,25 +89,20 @@ export default class SnippetTransition extends React.Component {
     });
   };
 
-  componentWillUnmount() {
-    window.clearInterval(this._timer);
-  }
-
   render() {
-    return (
-      <div>
-        <Snippet
-          ref={this.snippetRef}
-          key={this.props.name}
-          mediaPath={this.props.mediaPath}
-          width={this.props.width}
-          height={this.props.height}
-          name={this.props.name}
-          opacity={1.0}
-        />
-        {this.props.newName && this.props.newName !== this.props.name ? (
+    if (this.props.newName && this.props.newName !== this.props.name) {
+      return (
+        <div>
           <Snippet
-            ref={this.nextSnippetRef}
+            key={this.props.name}
+            mediaPath={this.props.mediaPath}
+            width={this.props.width}
+            height={this.props.height}
+            name={this.props.name}
+            opacity={1.0}
+          />
+          <Snippet
+            ref={this.snippetRef}
             key={this.props.newName}
             mediaPath={this.props.mediaPath}
             opacity={this.state.transitionFraction}
@@ -113,8 +110,22 @@ export default class SnippetTransition extends React.Component {
             height={this.props.height}
             name={this.props.newName}
           />
-        ) : null}
-      </div>
-    );
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <Snippet
+            ref={this.snippetRef}
+            key={this.props.name}
+            mediaPath={this.props.mediaPath}
+            width={this.props.width}
+            height={this.props.height}
+            name={this.props.name}
+            opacity={1.0}
+          />
+        </div>
+      );
+    }
   }
 }

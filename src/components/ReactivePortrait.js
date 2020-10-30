@@ -29,8 +29,8 @@ export default class ReactivePortrait extends React.Component {
 
     this.state = {
       stateMachine: this.stateMachine,
-      snippetName: this.stateMachine.getState(),
-      newSnippetName: this.stateMachine.getState(),
+      oldState: this.stateMachine.getState(),
+      newState: this.stateMachine.getState(),
     };
   }
 
@@ -45,6 +45,11 @@ export default class ReactivePortrait extends React.Component {
 
   tick50Ms = () => {
     this.invokeEvent("tick50Ms");
+
+    if (this.snippetRef.current?.hasFailedToLoad()) {
+      this.invokeEvent("failed");
+    }
+
     if (this.snippetRef.current?.isAlmostFinished()) {
       this.invokeEvent("almostFinished");
     }
@@ -106,20 +111,22 @@ export default class ReactivePortrait extends React.Component {
   };
 
   invokeEvent(eventName) {
-    console.log("event" + eventName);
+    // console.log("event" + eventName);
 
-    var newName = this.stateMachine.getNewState(eventName);
-    if (newName === this.state.newSnippetName) {
+    var newState = this.stateMachine.getNewState(eventName);
+    if (newState.name === this.state.newState.name) {
       return;
     }
 
     if (this.props.onSnippetChanged) {
-      this.props.onSnippetChanged(newName);
+      this.props.onSnippetChanged(newState.name);
     }
 
+    var oldState = eventName === "failed" ? newState : this.state.newState;
+
     this.setState({
-      snippetName: this.state.newSnippetName,
-      newSnippetName: newName,
+      oldState: oldState,
+      newState: newState,
     });
   }
 
@@ -140,8 +147,8 @@ export default class ReactivePortrait extends React.Component {
           mediaPath={this.props.snippetsMediaPath}
           width={this.props.width}
           height={this.props.height}
-          name={this.state.snippetName}
-          newName={this.state.newSnippetName}
+          name={this.state.oldState.name}
+          newName={this.state.newState.name}
         />
       </div>
     );

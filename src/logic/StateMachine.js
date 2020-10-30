@@ -113,24 +113,28 @@ const States = {
 };
 
 export default class StateMachine {
-  constructor(initialState) {
-    this._state = initialState;
-    this._stateStartTime = new Date().getTime();
+  constructor(initialStateName) {
+    this._setState(initialStateName);
   }
 
   getState() {
     return this._state;
   }
 
-  getNewState(transition) {
-    this._updateState(transition);
+  getNewState(event) {
+    this._updateState(event);
     return this._state;
   }
 
-  _updateState(transition) {
-    var stateInfo = States[this._state];
+  _updateState(event) {
+    var stateInfo = States[this._state.name];
 
-    var newStates = stateInfo.transitions[transition];
+    // handle failure by going back to idle
+    if (event === "failed") {
+      return this._setState("idle");
+    }
+
+    var newStates = stateInfo.transitions[event];
     if (!newStates) {
       return;
     }
@@ -145,8 +149,8 @@ export default class StateMachine {
     const randomFloat = Math.random();
     var probability = 0.0;
     for (const entry of Object.entries(newStates)) {
-      const newState = entry[0];
-      if (!(newState in States)) {
+      const newStateName = entry[0];
+      if (!(newStateName in States)) {
         continue;
       }
 
@@ -156,9 +160,15 @@ export default class StateMachine {
       }
 
       // found new state, reset timer
-      this._stateStartTime = new Date().getTime();
-      this._state = newState;
-      return;
+      return this._setState(newStateName);
     }
+  }
+
+  _setState(stateName) {
+    this._state = {
+      name: stateName,
+      info: States[stateName],
+    };
+    this._stateStartTime = new Date().getTime();
   }
 }

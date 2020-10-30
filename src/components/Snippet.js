@@ -1,8 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const IDLE_START_POINTS_S = [10, 23.26];
-
 // How close to the end of a video before returning it's almost finished
 const VIDEO_ALMOST_FINISHED_THRESHOLD_S = 0.1;
 
@@ -20,6 +18,7 @@ export default class Snippet extends React.Component {
   constructor(props) {
     super(props);
 
+    this.hasError = false;
     this.videoRef = React.createRef();
   }
 
@@ -31,15 +30,8 @@ export default class Snippet extends React.Component {
     if (!this.isVideoReady()) {
       return;
     }
-    var startTime = 0;
-    if (this.props.name === "idle") {
-      startTime =
-        IDLE_START_POINTS_S[
-          Math.floor(Math.random() * IDLE_START_POINTS_S.length)
-        ];
-    }
 
-    this.videoRef.current.currentTime = startTime;
+    this.videoRef.current.currentTime = this.getVideoStartTime();
   }
 
   isAlmostFinished() {
@@ -60,11 +52,17 @@ export default class Snippet extends React.Component {
     }
   };
 
+  onVideoError = (e) => {
+    this.hasError = true;
+  };
+
+  hasFailedToLoad() {
+    return this.hasError;
+  }
+
   getVideoStartTime() {
-    if (this.props.name === "idle") {
-      return IDLE_START_POINTS_S[
-        Math.floor(Math.random() * IDLE_START_POINTS_S.length)
-      ];
+    if (this.props.name === "idle" && this.videoRef.current?.duration) {
+      return Math.random() * this.videoRef.current.duration;
     }
     return 0;
   }
@@ -89,6 +87,7 @@ export default class Snippet extends React.Component {
           muted
           loop
           playsInline
+          onError={this.onVideoError}
           onLoadedData={this.onVideoLoaded}
           width={this.props.width}
           height={this.props.height}
