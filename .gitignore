@@ -13,6 +13,7 @@
 
 # media assets
 /public/media
+/video_sources
 
 # misc
 .DS_Store

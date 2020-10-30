@@ -14,6 +14,7 @@ export default class SnippetTransition extends React.Component {
     newName: PropTypes.string,
     mediaPath: PropTypes.string,
     onError: PropTypes.func,
+    onVideoLoaded: PropTypes.func,
   };
 
   constructor(props) {
@@ -89,6 +90,10 @@ export default class SnippetTransition extends React.Component {
     });
   };
 
+  onVideoLoaded = () => {
+    this.props.onVideoLoaded();
+  };
+
   render() {
     if (this.props.newName && this.props.newName !== this.props.name) {
       return (
@@ -109,6 +114,7 @@ export default class SnippetTransition extends React.Component {
             width={this.props.width}
             height={this.props.height}
             name={this.props.newName}
+            onVideoLoaded={this.onVideoLoaded}
           />
         </div>
       );
@@ -122,6 +128,7 @@ export default class SnippetTransition extends React.Component {
             width={this.props.width}
             height={this.props.height}
             name={this.props.name}
+            onVideoLoaded={this.onVideoLoaded}
             opacity={1.0}
           />
         </div>

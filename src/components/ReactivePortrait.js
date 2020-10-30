@@ -18,6 +18,7 @@ export default class ReactivePortrait extends React.Component {
     height: PropTypes.number,
     onSnippetChanged: PropTypes.func,
     snippetsMediaPath: PropTypes.string,
+    onLoaded: PropTypes.func,
   };
 
   constructor(props) {
@@ -26,6 +27,7 @@ export default class ReactivePortrait extends React.Component {
     this.rootRef = React.createRef();
     this.lastMouseEvent = new Date().getTime();
     this.snippetRef = React.createRef();
+    this.onLoadedCalled = false;
 
     this.state = {
       stateMachine: this.stateMachine,
@@ -130,6 +132,15 @@ export default class ReactivePortrait extends React.Component {
     });
   }
 
+  onVideoLoaded = () => {
+    if (!this.onLoadedCalled) {
+      this.onLoadedCalled = true;
+    }
+    if (this.props.onLoaded) {
+      this.props.onLoaded();
+    }
+  };
+
   render() {
     return (
       <div
@@ -149,6 +160,7 @@ export default class ReactivePortrait extends React.Component {
           height={this.props.height}
           name={this.state.oldState.name}
           newName={this.state.newState.name}
+          onVideoLoaded={this.onVideoLoaded}
         />
       </div>
     );
