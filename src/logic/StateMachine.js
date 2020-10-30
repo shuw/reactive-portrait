@@ -1,13 +1,13 @@
-const DIRECTION_PROB = 0.01;
+const DIRECTION_PROB = 0.02;
 
 // TODO
 // * States to introduce:
 // looking around, smile, silly, all directions, multiple idle states
 const States = {
   idle: {
-    minDurationS: 0.0,
     transitions: {
       tick50: {
+        minTimeElapsedInState: 10,
         wave: { probability: 0.001 },
         lookingAround: { probability: 0.0003 },
         lookingAround2: { probability: 0.0002 },
@@ -29,78 +29,85 @@ const States = {
       lookDown: { lookingDown: {} },
       lookUp: { lookingUp: {} },
 
-      mouseUp: { lookingUp: { probability: DIRECTION_PROB } },
-      mouseUpLeft: { lookingUpLeft: { probability: DIRECTION_PROB } },
+      mouseUp: {
+        minTimeElapsedInState: 5,
+        lookingUp: { probability: DIRECTION_PROB },
+      },
+      mouseUpLeft: {
+        minTimeElapsedInState: 5,
+        lookingUpLeft: { probability: DIRECTION_PROB },
+      },
       mouseUpRight: {
+        minTimeElapsedInState: 5,
         lookingUpRight: { probability: DIRECTION_PROB },
       },
-      mouseLeft: { lookingLeft: { probability: DIRECTION_PROB } },
-      mouseRight: { lookingRight: { probability: DIRECTION_PROB } },
-      mouseDown: { lookingDown: { probability: DIRECTION_PROB * 0.5 } },
-      mouseDownLeft: { lookingDownLeft: { probability: DIRECTION_PROB } },
-      mouseDownRight: { lookingDownRight: { probability: DIRECTION_PROB } },
+      mouseLeft: {
+        minTimeElapsedInState: 5,
+        lookingLeft: { probability: DIRECTION_PROB },
+      },
+      mouseRight: {
+        minTimeElapsedInState: 5,
+        lookingRight: { probability: DIRECTION_PROB },
+      },
+      mouseDown: {
+        minTimeElapsedInState: 5,
+        lookingDown: { probability: DIRECTION_PROB * 0.5 },
+      },
+      mouseDownLeft: {
+        minTimeElapsedInState: 5,
+        lookingDownLeft: { probability: DIRECTION_PROB },
+      },
+      mouseDownRight: {
+        minTimeElapsedInState: 5,
+        lookingDownRight: { probability: DIRECTION_PROB },
+      },
     },
   },
 
   bye: {
-    minDurationS: 3.5,
     transitions: { almostFinished: { wave: {} } },
   },
 
   wave: {
-    minDurationS: 3,
     transitions: { almostFinished: { idle: {} } },
   },
   thumbsUp: {
-    minDurationS: 4.6,
     transitions: { almostFinished: { idle: {} } },
   },
   knockKnock: {
-    minDurationS: 6.9,
     transitions: { almostFinished: { idle: {} } },
   },
   thinking: {
-    minDurationS: 6.9,
     transitions: { almostFinished: { idle: {} } },
   },
   lookingAround: {
-    minDurationS: 7.2,
     transitions: { almostFinished: { idle: {} } },
   },
   lookingAround2: {
-    minDurationS: 6.3,
     transitions: { almostFinished: { idle: {} } },
   },
   lookingUp: {
-    minDurationS: 5.6,
     transitions: { almostFinished: { idle: {} } },
   },
   lookingUpLeft: {
-    minDurationS: 5.5,
     transitions: { almostFinished: { idle: {} } },
   },
   lookingUpRight: {
-    minDurationS: 7,
     transitions: { almostFinished: { idle: {} } },
   },
   lookingLeft: {
-    minDurationS: 6,
     transitions: { almostFinished: { idle: {} } },
   },
   lookingRight: {
-    minDurationS: 5.5,
     transitions: { almostFinished: { idle: {} } },
   },
   lookingDown: {
-    minDurationS: 5.3,
     transitions: { almostFinished: { idle: {} } },
   },
   lookingDownLeft: {
-    minDurationS: 7.3,
     transitions: { almostFinished: { idle: {} } },
   },
   lookingDownRight: {
-    minDurationS: 7.3,
     transitions: { almostFinished: { idle: {} } },
   },
 };
@@ -123,14 +130,16 @@ export default class StateMachine {
   _updateState(transition) {
     var stateInfo = States[this._state];
 
-    var timeInStateMs = new Date().getTime() - this._stateStartTime;
-    if (timeInStateMs < stateInfo.minDurationS * 1000) {
-      return;
-    }
-
     var newStates = stateInfo.transitions[transition];
     if (!newStates) {
       return;
+    }
+
+    if (newStates.minTimeElapsedInState) {
+      var timeInStateMs = new Date().getTime() - this._stateStartTime;
+      if (timeInStateMs < newStates.minTimeElapsedInState * 1000) {
+        return;
+      }
     }
 
     const randomFloat = Math.random();
