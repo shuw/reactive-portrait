@@ -27,7 +27,15 @@ export default class App extends React.Component {
 
     const portraits = names.map((name) => {
       return (
-        <li key={name} style={{ display: "inline-block", padding: "20px" }}>
+        <div
+          key={name}
+          style={{
+            display: "inline-block",
+            width: "400px",
+            padding: "20px",
+            textAlign: "center",
+          }}
+        >
           <ReactivePortrait
             stateMachineOptions={stateMachineOptions}
             snippetsMediaPath={"/reactive-portrait/media/" + name}
@@ -35,7 +43,7 @@ export default class App extends React.Component {
             width={400}
             height={400}
           />
-        </li>
+        </div>
       );
     });
 
@@ -44,12 +52,24 @@ export default class App extends React.Component {
 
     return (
       <div className="App">
-        <header className="App-header">
-          <ul>{portraits}</ul>
-          {hideStateInfo ? null : (
-            <div style={{ paddingTop: "20px" }}>{this.state.snippetName}</div>
-          )}
-        </header>
+        <a
+          style={{
+            position: "absolute",
+            top: "20px",
+            right: "20px",
+            color: "#aaa",
+          }}
+          href="https://github.com/shuw/reactive-portrait"
+          target="_blnk"
+        >
+          Source Code
+        </a>
+        <div style={{ paddingTop: "200px" }}>{portraits}</div>
+        {hideStateInfo ? null : (
+          <div style={{ color: "#aaa", paddingTop: "10px", fontSize: "20px" }}>
+            {this.state.snippetName}
+          </div>
+        )}
       </div>
     );
   }

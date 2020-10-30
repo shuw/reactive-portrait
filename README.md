@@ -6,8 +6,6 @@ Try out an example here: [https://shuw.github.io/reactive-portrait](https://shuw
 
 ## How to self host this on your website?
 
-Instructions coming soon.
-
 ### 1. Include bindReactivePortrait javascript on your webpage
 
 ```
