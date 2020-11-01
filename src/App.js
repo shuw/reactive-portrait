@@ -2,6 +2,8 @@ import React from "react";
 import ReactivePortrait from "./components/ReactivePortrait";
 import "./App.css";
 
+const MEDIA_PATH = "https://shuw.github.io/reactive-portrait-media/";
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -38,7 +40,7 @@ export default class App extends React.Component {
         >
           <ReactivePortrait
             stateMachineOptions={stateMachineOptions}
-            snippetsMediaPath={"/reactive-portrait/media/" + name}
+            snippetsMediaPath={MEDIA_PATH + name}
             onSnippetChanged={this.onPortraitChanged}
             width={400}
             height={400}
