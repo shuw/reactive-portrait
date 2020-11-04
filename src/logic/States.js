@@ -90,6 +90,11 @@ export default class States {
       lookingDown: { events: { almostFinished: { idle: {} } } },
       lookingDownLeft: { events: { almostFinished: { idle: {} } } },
       lookingDownRight: { events: { almostFinished: { idle: {} } } },
+      customReaction1: { events: { almostFinished: { idle: {} } } },
+      customReaction2: { events: { almostFinished: { idle: {} } } },
+      customReaction3: { events: { almostFinished: { idle: {} } } },
+      customReaction4: { events: { almostFinished: { idle: {} } } },
+      customReaction5: { events: { almostFinished: { idle: {} } } },
     };
   }
 }

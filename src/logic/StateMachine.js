@@ -1,37 +1,42 @@
 import States from "./States";
 
+/**
+ * TODO:
+ * - on fileNotFound condition, re-trigger the previous event with new state
+ */
 export default class StateMachine {
   constructor(initialStateName, options = {}) {
     this.states = States.get(options);
     this._setState(initialStateName);
-    this._previousState = this._state;
+    this.previousState = this.state;
+    this.statesFailedToLoad = {};
   }
 
   getState() {
-    return this._state;
+    return this.state;
   }
 
   getNewState(event) {
     this._updateState(event);
-    return this._state;
+    return this.state;
   }
 
   _updateState(event) {
-    var stateInfo = this.states[this._state.name];
-
     // handle failure by going back to idle
-    if (event === "failed") {
-      this._state = this._previousState;
+    if (event === "fileNotFound") {
+      console.log("Could not find file for state: " + this.state.name);
+      this.statesFailedToLoad[this.state.name] = true;
+      this.state = this.previousState;
       return;
     }
 
-    var newStates = stateInfo.events[event];
+    var newStates = this.state.info.events[event];
     if (!newStates) {
       return;
     }
 
     if (newStates.minTimeElapsedInState) {
-      var timeInStateMs = new Date().getTime() - this._state.startTime;
+      var timeInStateMs = new Date().getTime() - this.state.startTime;
       if (timeInStateMs < newStates.minTimeElapsedInState * 1000) {
         return;
       }
@@ -41,11 +46,22 @@ export default class StateMachine {
     var probability = 0.0;
     for (const entry of Object.entries(newStates)) {
       const newStateName = entry[0];
-      if (!(newStateName in this.states)) {
+      const newStateInfo = entry[1];
+
+      // skip properties, or states that failed to load
+      if (
+        newStateInfo.constructor !== Object ||
+        newStateName in this.statesFailedToLoad
+      ) {
         continue;
       }
 
-      probability += entry[1].probability || 1.0;
+      if (!(newStateName in this.states)) {
+        console.error("ERROR, state not found: " + newStateName);
+        continue;
+      }
+
+      probability += newStateInfo.probability || 1.0;
       if (probability < randomFloat) {
         continue;
       }
@@ -57,7 +73,7 @@ export default class StateMachine {
   }
 
   _setState(stateName) {
-    this._state = {
+    this.state = {
       name: stateName,
       info: this.states[stateName],
       startTime: new Date().getTime(),

@@ -53,7 +53,7 @@ export default class ReactivePortrait extends React.Component {
     this.invokeEvent("tick50Ms");
 
     if (this.snippetRef.current?.hasFailedToLoad()) {
-      this.invokeEvent("failed");
+      this.invokeEvent("fileNotFound");
     }
 
     if (this.snippetRef.current?.isAlmostFinished()) {
@@ -128,7 +128,8 @@ export default class ReactivePortrait extends React.Component {
       this.props.onSnippetChanged(newState.name);
     }
 
-    var oldState = eventName === "failed" ? newState : this.state.newState;
+    var oldState =
+      eventName === "fileNotFound" ? newState : this.state.newState;
 
     this.setState({
       oldState: oldState,
