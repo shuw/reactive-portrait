@@ -4,6 +4,7 @@ export default class StateMachine {
   constructor(initialStateName, options = {}) {
     this.states = States.get(options);
     this._setState(initialStateName);
+    this._previousState = this._state;
   }
 
   getState() {
@@ -20,10 +21,7 @@ export default class StateMachine {
 
     // handle failure by going back to idle
     if (event === "failed") {
-      this._setState("idle");
-
-      // disable minTimeElapsedInState
-      this._stateStartTime = 0;
+      this._state = this._previousState;
       return;
     }
 
@@ -33,7 +31,7 @@ export default class StateMachine {
     }
 
     if (newStates.minTimeElapsedInState) {
-      var timeInStateMs = new Date().getTime() - this._stateStartTime;
+      var timeInStateMs = new Date().getTime() - this._state.startTime;
       if (timeInStateMs < newStates.minTimeElapsedInState * 1000) {
         return;
       }
@@ -62,7 +60,7 @@ export default class StateMachine {
     this._state = {
       name: stateName,
       info: this.states[stateName],
+      startTime: new Date().getTime(),
     };
-    this._stateStartTime = new Date().getTime();
   }
 }
