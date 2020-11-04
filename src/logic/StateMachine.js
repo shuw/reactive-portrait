@@ -7,9 +7,9 @@ import States from "./States";
 export default class StateMachine {
   constructor(initialStateName, options = {}) {
     this.states = States.get(options);
-    this._setState(initialStateName);
+    this._setState(initialStateName, null /* no triggering event*/);
     this.previousState = this.state;
-    this.statesFailedToLoad = {};
+    this.statesWithoutFiles = {};
   }
 
   getState() {
@@ -24,8 +24,7 @@ export default class StateMachine {
   _updateState(event) {
     // handle failure by going back to idle
     if (event === "fileNotFound") {
-      console.log("Could not find file for state: " + this.state.name);
-      this.statesFailedToLoad[this.state.name] = true;
+      this.statesWithoutFiles[this.state.name] = true;
       this.state = this.previousState;
       return;
     }
@@ -44,14 +43,16 @@ export default class StateMachine {
 
     const randomFloat = Math.random();
     var probability = 0.0;
-    for (const entry of Object.entries(newStates)) {
+
+    const entries = Object.entries(newStates).sort(() => 0.5 - Math.random());
+    for (const entry of entries) {
       const newStateName = entry[0];
       const newStateInfo = entry[1];
 
-      // skip properties, or states that failed to load
+      // skip properties, or states without files
       if (
         newStateInfo.constructor !== Object ||
-        newStateName in this.statesFailedToLoad
+        newStateName in this.statesWithoutFiles
       ) {
         continue;
       }
@@ -67,15 +68,17 @@ export default class StateMachine {
       }
 
       // found new state, reset timer
-      this._setState(newStateName);
+      this._setState(newStateName, event);
       return;
     }
   }
 
-  _setState(stateName) {
+  _setState(stateName, triggeringEvent) {
+    this.previousState = this.state;
     this.state = {
       name: stateName,
       info: this.states[stateName],
+      triggeringEvent: triggeringEvent,
       startTime: new Date().getTime(),
     };
   }

@@ -26,6 +26,10 @@ export default class States {
             smile: { probability: 0.2 },
             thinking: { probability: 0.2 },
             customReaction1: { probability: 0.2 },
+            customReaction2: { probability: 0.2 },
+            customReaction3: { probability: 0.2 },
+            customReaction4: { probability: 0.2 },
+            customReaction5: { probability: 0.2 },
           },
 
           thumbsUp: { thumbsUp: {} },

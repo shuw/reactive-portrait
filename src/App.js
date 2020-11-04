@@ -23,13 +23,8 @@ export default class App extends React.Component {
     const names = (params.get("names") ?? params.get("name") ?? "shuw").split(
       ","
     );
-
-    const stateMachineOptions = {
-      lookAround: params.get("lookAround") !== null,
-    };
-
-    const mediaPath =
-      params.get("debug") !== null ? MEDIA_PATH_DEBUG : MEDIA_PATH;
+    const isDebugMode = params.get("debug") !== null;
+    const mediaPath = isDebugMode ? MEDIA_PATH_DEBUG : MEDIA_PATH;
 
     const portraits = names.map((name) => {
       return (
@@ -43,7 +38,10 @@ export default class App extends React.Component {
           }}
         >
           <ReactivePortrait
-            stateMachineOptions={stateMachineOptions}
+            options={{
+              lookAround: params.get("lookAround") !== null,
+              verboseLogging: params.get("verboseLogging") !== null,
+            }}
             snippetsMediaPath={mediaPath + name}
             onSnippetChanged={this.onPortraitChanged}
             width={400}

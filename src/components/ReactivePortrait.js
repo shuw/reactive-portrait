@@ -19,14 +19,14 @@ export default class ReactivePortrait extends React.Component {
     onSnippetChanged: PropTypes.func,
     snippetsMediaPath: PropTypes.string,
     onLoaded: PropTypes.func,
-    stateMachineOptions: PropTypes.object,
+    options: PropTypes.object,
   };
 
   constructor(props) {
     super(props);
     this.stateMachine = new StateMachine(
       ReactivePortrait.defaultSnippet,
-      props.stateMachineOptions ?? {}
+      props.options ?? {}
     );
     this.rootRef = React.createRef();
     this.lastMouseEvent = new Date().getTime();
@@ -116,20 +116,43 @@ export default class ReactivePortrait extends React.Component {
     this.invokeEvent("attention");
   };
 
+  logVerbose(message) {
+    if (this.props.options.verboseLogging) {
+      console.log(message);
+    }
+  }
+
   invokeEvent(eventName) {
-    // console.log("event: " + eventName);
+    if (this.props.options.verboseLogging && eventName !== "tick50Ms") {
+      this.logVerbose("event: " + eventName);
+    }
+
+    var previousTriggeringEvent = this.stateMachine.state.triggeringEvent;
 
     var newState = this.stateMachine.getNewState(eventName);
     if (newState.name === this.state.newState.name) {
       return;
     }
 
+    var oldState;
+    if (eventName === "fileNotFound") {
+      oldState = newState;
+
+      // if file not found, then re-trigger the previous event to find a new one
+      if (previousTriggeringEvent !== null) {
+        this.logVerbose(
+          "Re-triggering event because file not found: " +
+            previousTriggeringEvent
+        );
+        newState = this.stateMachine.getNewState(previousTriggeringEvent);
+      }
+    } else {
+      oldState = this.state.newState;
+    }
+
     if (this.props.onSnippetChanged) {
       this.props.onSnippetChanged(newState.name);
     }
-
-    var oldState =
-      eventName === "fileNotFound" ? newState : this.state.newState;
 
     this.setState({
       oldState: oldState,
