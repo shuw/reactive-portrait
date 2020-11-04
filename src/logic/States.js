@@ -22,9 +22,10 @@ export default class States {
 
           attention: {
             wave: { probability: 0.2 },
-            thumbsUp: { probability: 0.3 },
-            smile: { probability: 0.3 },
+            thumbsUp: { probability: 0.2 },
+            smile: { probability: 0.2 },
             thinking: { probability: 0.2 },
+            customReaction1: { probability: 0.2 },
           },
 
           thumbsUp: { thumbsUp: {} },

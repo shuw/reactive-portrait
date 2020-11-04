@@ -70,7 +70,7 @@ export default class App extends React.Component {
         >
           Source Code
         </a>
-        <div style={{ paddingTop: "200px" }}>{portraits}</div>
+        <div style={{ paddingTop: "150px" }}>{portraits}</div>
         {hideStateInfo ? null : (
           <div style={{ color: "#aaa", paddingTop: "10px", fontSize: "20px" }}>
             {this.state.snippetName}
