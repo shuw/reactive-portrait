@@ -3,6 +3,7 @@ import ReactivePortrait from "./components/ReactivePortrait";
 import "./App.css";
 
 const MEDIA_PATH = "https://shuw.github.io/reactive-portrait-media/";
+const MEDIA_PATH_DEBUG = "http://localhost:3001/";
 
 export default class App extends React.Component {
   constructor(props) {
@@ -27,6 +28,9 @@ export default class App extends React.Component {
       lookAround: params.get("lookAround") !== null,
     };
 
+    const mediaPath =
+      params.get("debug") !== null ? MEDIA_PATH_DEBUG : MEDIA_PATH;
+
     const portraits = names.map((name) => {
       return (
         <div
@@ -40,7 +44,7 @@ export default class App extends React.Component {
         >
           <ReactivePortrait
             stateMachineOptions={stateMachineOptions}
-            snippetsMediaPath={MEDIA_PATH + name}
+            snippetsMediaPath={mediaPath + name}
             onSnippetChanged={this.onPortraitChanged}
             width={400}
             height={400}
