@@ -12,7 +12,7 @@ export default class States {
     return {
       idle: {
         events: {
-          tick50: {
+          tick50Ms: {
             minTimeElapsedInState: 10,
             wave: { probability: 0.001 },
             smile: { probability: 0.0005 },
