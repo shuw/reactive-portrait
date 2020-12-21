@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/reactive-portrait/static/css/main.793495d4.chunk.css",
-    "main.js": "/reactive-portrait/static/js/main.f9472aa8.chunk.js",
-    "main.js.map": "/reactive-portrait/static/js/main.f9472aa8.chunk.js.map",
+    "main.js": "/reactive-portrait/static/js/main.35ee7b61.chunk.js",
+    "main.js.map": "/reactive-portrait/static/js/main.35ee7b61.chunk.js.map",
     "runtime-main.js": "/reactive-portrait/static/js/runtime-main.64dd17f2.js",
     "runtime-main.js.map": "/reactive-portrait/static/js/runtime-main.64dd17f2.js.map",
     "static/js/2.aec3d534.chunk.js": "/reactive-portrait/static/js/2.aec3d534.chunk.js",
     "static/js/2.aec3d534.chunk.js.map": "/reactive-portrait/static/js/2.aec3d534.chunk.js.map",
     "index.html": "/reactive-portrait/index.html",
-    "precache-manifest.5d1d4232ba2e79b39e4cb55e23e998f9.js": "/reactive-portrait/precache-manifest.5d1d4232ba2e79b39e4cb55e23e998f9.js",
+    "precache-manifest.1168df3a1da4d8985f3f63119edef1ef.js": "/reactive-portrait/precache-manifest.1168df3a1da4d8985f3f63119edef1ef.js",
     "service-worker.js": "/reactive-portrait/service-worker.js",
     "static/css/main.793495d4.chunk.css.map": "/reactive-portrait/static/css/main.793495d4.chunk.css.map",
     "static/js/2.aec3d534.chunk.js.LICENSE.txt": "/reactive-portrait/static/js/2.aec3d534.chunk.js.LICENSE.txt"
@@ -17,6 +17,6 @@
     "static/js/runtime-main.64dd17f2.js",
     "static/js/2.aec3d534.chunk.js",
     "static/css/main.793495d4.chunk.css",
-    "static/js/main.f9472aa8.chunk.js"
+    "static/js/main.35ee7b61.chunk.js"
   ]
 }
