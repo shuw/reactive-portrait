@@ -12,6 +12,7 @@ const bindReactivePortrait = (element, size, mediaPath, options) => {
       height={size}
       snippetsMediaPath={mediaPath}
       onLoaded={options.onLoaded}
+      options={options}
     />,
     element
   );
