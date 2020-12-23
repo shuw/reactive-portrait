@@ -23,7 +23,7 @@ export default class Snippet extends React.Component {
   }
 
   isVideoReady() {
-    return this.videoRef.current && this.videoRef.current.readyState === 4;
+    return this.videoRef.current && this.videoRef.current.readyState > 0;
   }
 
   playFromBeginning() {
